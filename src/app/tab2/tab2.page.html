@@ -1,0 +1,111 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Laundry Services</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-searchbar
+    [(ngModel)]="searchTerm"
+    placeholder="Search services">
+  </ion-searchbar>
+
+  <ion-segment value="all" [(ngModel)]="statusFilter">
+    <ion-segment-button value="all">
+      <ion-label>All</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="not done">
+      <ion-label>Not done</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="done">
+      <ion-label>Done</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <ion-list>
+
+    <ion-item-sliding *ngFor="let service of filteredServices">
+
+      <ion-item>
+
+        <ion-label>
+          <h2>{{ service.serviceName }}</h2>
+          <p>Price: {{ service.price }}</p>
+          <p>Category: {{ service.category }}</p>
+          <p>Duration: {{ service.duration }}</p>
+          <p>Status: {{ service.status }}</p>
+        </ion-label>
+
+        <ion-button
+          size="small"
+          fill="outline"
+          (click)="openEditModal(service)">
+          Update
+        </ion-button>
+
+        <ion-button
+          size="small"
+          fill="outline"
+          color="danger"
+          (click)="deleteService(service)">
+          Delete
+        </ion-button>
+
+      </ion-item>
+
+      <ion-item-options side="end">
+
+        <ion-item-option
+          color="danger"
+          (click)="deleteService(service)">
+          Delete
+        </ion-item-option>
+
+      </ion-item-options>
+
+    </ion-item-sliding>
+
+  </ion-list>
+
+  <ion-text *ngIf="filteredServices.length === 0" color="medium">
+
+    <p>{{ services.length === 0 ? 'No services yet.' : 'No matching services.' }}</p>
+
+  </ion-text>
+
+  <ion-modal
+    [isOpen]="isEditModalOpen"
+    (didDismiss)="closeEditModal()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Update Service</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeEditModal()">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-input label="Service name" labelPlacement="stacked" [(ngModel)]="editingService.serviceName"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input type="number" label="Price" labelPlacement="stacked" [(ngModel)]="editingService.price"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input label="Category" labelPlacement="stacked" [(ngModel)]="editingService.category"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input label="Duration" labelPlacement="stacked" [(ngModel)]="editingService.duration"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input label="Status" labelPlacement="stacked" [(ngModel)]="editingService.status"></ion-input>
+        </ion-item>
+        <ion-button expand="block" (click)="saveService()">Save changes</ion-button>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+</ion-content>

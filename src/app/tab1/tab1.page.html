@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Add laundry Service</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-item>
+    <ion-input
+      placeholder="Service name"
+      [(ngModel)]="newService.serviceName">
+    </ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-input
+      type="number"
+      placeholder="Price"
+      [(ngModel)]="newService.price">
+    </ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-input
+      placeholder="Category"
+      [(ngModel)]="newService.category">
+    </ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-input
+      placeholder="Duration"
+      [(ngModel)]="newService.duration">
+    </ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-input
+      placeholder="Status"
+      [(ngModel)]="newService.status">
+    </ion-input>
+  </ion-item>
+
+  <ion-button
+    expand="block"
+    (click)="addUser()">
+    Add Service
+  </ion-button>
+
+</ion-content>
