@@ -1,38 +1,63 @@
-name: Deploy Frontend
+name: Deploy Ionic App Locally
 
 on:
   push:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
+  deploy:
+    runs-on:
+      - self-hosted
+      - Windows
+      - X64
 
     steps:
-      - name: Checkout code
+      - name: Checkout latest code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
+      - name: Build Ionic image
+        shell: powershell
+        run: docker build --pull -t ionic-crud:latest .
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Remove previous container
+        shell: powershell
+        continue-on-error: true
+        run: |
+          docker rm -f ionic-crud
+          $containers = docker ps --filter "publish=8100" --format "{{.ID}}"
+          foreach ($container in $containers) {
+            docker rm -f $container
+          }
 
-      - name: Run tests
-        run: npm test
+      - name: Start updated container
+        shell: powershell
+        run: docker run -d --name ionic-crud --restart unless-stopped -p 8100:80 ionic-crud:latest
 
-      - name: Build Vue app
-        run: npm run build
+      - name: Verify app
+        shell: powershell
+        run: |
+          $success = $false
 
-      - name: Deploy to server  
-        uses: appleboy/scp-action@v1
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "dist/*"
-          target: "/var/www/cicd-demo"
-          strip_components: 1
+          for ($i = 1; $i -le 15; $i++) {
+            try {
+              $response = Invoke-WebRequest -Uri "http://localhost:8100/" -UseBasicParsing -TimeoutSec 2
+              if ($response.StatusCode -eq 200) {
+                $success = $true
+                break
+              }
+            }
+            catch {
+              Start-Sleep -Seconds 2
+            }
+          }
+
+          if (-not $success) {
+            docker logs ionic-crud
+            exit 1
+          }
+
+          Write-Host "Ionic app is available at http://localhost:8100/"

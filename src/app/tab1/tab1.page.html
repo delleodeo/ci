@@ -1,51 +1,88 @@
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>sample</ion-title>
+    <ion-title>Service studio</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content [fullscreen]="true">
+  <div class="page-shell">
+    <section class="hero">
+      <div class="hero-icon" aria-hidden="true">
+        <ion-icon name="sparkles-outline"></ion-icon>
+      </div>
+      <div>
+        <p class="eyebrow">Laundry services</p>
+        <h1>Create a new service</h1>
+        <p class="hero-copy">Add a service to keep your laundry menu organized and ready for customers.</p>
+      </div>
+    </section>
 
-  <ion-item>
-    <ion-input
-      placeholder="Service name"
-      [(ngModel)]="newService.serviceName">
-    </ion-input>
-  </ion-item>
+    <section class="form-card" aria-labelledby="service-details-title">
+      <div class="card-heading">
+        <div>
+          <p class="eyebrow">Service details</p>
+          <h2 id="service-details-title">Tell us about the service</h2>
+        </div>
+        <span class="required-note">All fields required</span>
+      </div>
 
-  <ion-item>
-    <ion-input
-      type="number"
-      placeholder="Price"
-      [(ngModel)]="newService.price">
-    </ion-input>
-  </ion-item>
+      <div class="form-grid">
+        <ion-item class="form-field field-wide">
+          <ion-icon slot="start" name="shirt-outline" aria-hidden="true"></ion-icon>
+          <ion-input
+            label="Service name"
+            labelPlacement="stacked"
+            placeholder="e.g. Premium wash & fold"
+            [(ngModel)]="newService.serviceName">
+          </ion-input>
+        </ion-item>
 
-  <ion-item>
-    <ion-input
-      placeholder="Category"
-      [(ngModel)]="newService.category">
-    </ion-input>
-  </ion-item>
+        <ion-item class="form-field">
+          <ion-icon slot="start" name="cash-outline" aria-hidden="true"></ion-icon>
+          <ion-input
+            type="number"
+            label="Price"
+            labelPlacement="stacked"
+            placeholder="0.00"
+            [(ngModel)]="newService.price">
+          </ion-input>
+        </ion-item>
 
-  <ion-item>
-    <ion-input
-      placeholder="Duration"
-      [(ngModel)]="newService.duration">
-    </ion-input>
-  </ion-item>
+        <ion-item class="form-field">
+          <ion-icon slot="start" name="pricetag-outline" aria-hidden="true"></ion-icon>
+          <ion-input
+            label="Category"
+            labelPlacement="stacked"
+            placeholder="e.g. Wash & fold"
+            [(ngModel)]="newService.category">
+          </ion-input>
+        </ion-item>
 
-  <ion-item>
-    <ion-input
-      placeholder="Status"
-      [(ngModel)]="newService.status">
-    </ion-input>
-  </ion-item>
+        <ion-item class="form-field">
+          <ion-icon slot="start" name="time-outline" aria-hidden="true"></ion-icon>
+          <ion-input
+            label="Duration"
+            labelPlacement="stacked"
+            placeholder="e.g. 24 hours"
+            [(ngModel)]="newService.duration">
+          </ion-input>
+        </ion-item>
 
-  <ion-button
-    expand="block"
-    (click)="addUser()">
-    Add Service
-  </ion-button>
+        <ion-item class="form-field">
+          <ion-icon slot="start" name="checkmark-circle-outline" aria-hidden="true"></ion-icon>
+          <ion-input
+            label="Status"
+            labelPlacement="stacked"
+            placeholder="e.g. Available"
+            [(ngModel)]="newService.status">
+          </ion-input>
+        </ion-item>
+      </div>
 
+      <ion-button class="submit-button" expand="block" (click)="addUser()">
+        <ion-icon slot="start" name="add-circle-outline" aria-hidden="true"></ion-icon>
+        Add service
+      </ion-button>
+    </section>
+  </div>
 </ion-content>
