@@ -18,7 +18,7 @@ RUN npm install
 COPY . .
 
 # Document the application port
-EXPOSE 8100
+EXPOSE 8101
 
 # Start the Ionic development server
 CMD ["ionic", "serve", "--host=0.0.0.0", "--port=8100", "--no-open"]
